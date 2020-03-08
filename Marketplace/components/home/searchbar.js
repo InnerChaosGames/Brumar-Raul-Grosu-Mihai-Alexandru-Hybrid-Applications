@@ -18,8 +18,7 @@ const Searchbar = (props) => {
                 placeholder="Search the marketplace..."
                 onChangeText={ value => setSearchValue(value)}
                 returnKeyType= 'search'
-                onSubmitEditing={() => console.log('pula')}
-            >
+                onSubmitEditing={() => console.log('ok')}>
             </SearchBar>
         </View>
     )
@@ -31,19 +30,23 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     inputContainer: {
-        borderWidth: 1,
         borderRadius: 20,
         height: 40,
         width: '100%',
-        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: '#035aa1',
+        backgroundColor: 'white'
     },
     container: {
-        borderWidth: 0,
         height: 60,
         backgroundColor: '#96bbff',
         alignContent: 'center',
-        justifyContent: 'center'
-
+        justifyContent: 'center',
+        borderWidth: 3,
+        borderBottomColor: 'transparent',
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: 'transparent',
     }
 })
 

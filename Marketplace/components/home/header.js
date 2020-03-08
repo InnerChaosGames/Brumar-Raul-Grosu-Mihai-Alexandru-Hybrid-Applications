@@ -29,7 +29,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 10,
         paddingRight: 10,
-        backgroundColor: '#96bbff'
+        backgroundColor: '#81bef0',
+        borderWidth: 2,
+        borderBottomColor: '#035aa1',
+        borderTopColor: 'transparent',
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent'
     },
     button: {
         borderRadius: 30,
