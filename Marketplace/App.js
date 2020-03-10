@@ -2,13 +2,13 @@ import React from 'react';
 import { useState } from 'react'
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import HomeScreen from './Screens/HomeScreen'
- 
+import LoginScreen from './Screens/LoginScreen'
  
 
 
 export default function App() {
   return(
-    <HomeScreen></HomeScreen>
+    <LoginScreen></LoginScreen>
   )
 }
 
