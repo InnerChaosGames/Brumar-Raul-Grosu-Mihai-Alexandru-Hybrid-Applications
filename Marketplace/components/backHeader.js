@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 const BackHeader = (props) => {
     return (
     <View style={ styles.main }>
-        <TouchableHighlight style={{paddingTop: 10, paddingBottom: 10}} onPress={() => console.log('Back button pressed')}>
+        <TouchableHighlight style={{paddingTop: 10, paddingBottom: 10}} onPress={() => props.navigation.pop()}>
             <View style= { [styles.button, { height: 45, width: 60 }, {alignItems: 'center'}] }>
                 <Ionicons name='ios-arrow-back' color='black' size={30}></Ionicons>
             </View>

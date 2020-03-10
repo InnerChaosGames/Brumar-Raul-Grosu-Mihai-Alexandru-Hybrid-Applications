@@ -6,13 +6,13 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 const Header = (props) => {
     return (
     <View style={ styles.main }>
-        <TouchableHighlight onPress={() => console.log('login button pressed')}>
+        <TouchableHighlight onPress={() => props.navigation.navigate('LoginScreen')}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button1}</Text>
             </View>
         </TouchableHighlight>
         <Text style={styles.titleText}>{props.title}</Text>
-        <TouchableHighlight onPress={() => console.log('post button pressed')}>
+        <TouchableHighlight onPress={() => props.navigation.navigate('PostNewScreen')}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button2}</Text>
             </View>

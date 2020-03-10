@@ -20,7 +20,7 @@ const HomeScreen = (props) => {
     return (
         <View style={styles.container}>
             <StatusBar hidden={ true}></StatusBar>
-            <Header height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'}></Header>
+            <Header height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={props.navigation}></Header>
             <Searchbar></Searchbar>
             <RadioForm
                 style= { styles.radioButton }
@@ -32,9 +32,7 @@ const HomeScreen = (props) => {
                 formHorizontal={ true }
                 onPress= { (value) => {setRadioButton(value)}}>
             </RadioForm>
-            <ResultsList>
-
-            </ResultsList>
+            <ResultsList></ResultsList>
             
         </View>
   );

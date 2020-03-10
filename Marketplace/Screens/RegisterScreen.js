@@ -16,7 +16,7 @@ const RegisterScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <BackHeader title= 'Register'></BackHeader>
+            <BackHeader title= 'Register' navigation={props.navigation}></BackHeader>
             <View style={styles.pageStyle}>
               <Text style={{fontSize: 25}}> { "Username" }</Text>
               <TextInput style={styles.textInput}></TextInput>

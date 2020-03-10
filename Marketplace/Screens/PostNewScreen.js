@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Text, StyleSheet, ScrollView, StatusBar, Image, View, TextInput, TouchableHighlight } from 'react-native';
 import ImageList from '../components/postedItem/imageList'
 import ItemDetails from '../components/postedItem/itemDetails'
-import Header from '../components/home/header';
+import BackHeader from '../components/backHeader';
 import AddedImagesList from '../components/postNewItems/addedImagesList'
 import Dropdown from 'react-native-modal-dropdown';
 
@@ -17,7 +17,7 @@ const PostNewScreen = (props) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <StatusBar hidden={ true}></StatusBar>
-            <Header height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'}> </Header>
+            <BackHeader height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={props.navigation}> </BackHeader>
             <View style={{padding: 5}}>
                 <Text style={{fontSize: 20}}> { "Add images:" } </Text>
                 <AddedImagesList></AddedImagesList>
