@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, ScrollView, StatusBar, Image } from 'react-native';
-import ImageList from '../components/post/imageList'
-import ItemDetails from '../components/post/itemDetails'
+import { StyleSheet, ScrollView, StatusBar } from 'react-native';
+import ImageList from '../components/postedItem/imageList'
+import ItemDetails from '../components/postedItem/itemDetails'
 
 const PostScreen = (props) => {
     
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            <StatusBar hidden={ true}></StatusBar>
             <ImageList></ImageList>
             <ItemDetails></ItemDetails>
         </ScrollView>
