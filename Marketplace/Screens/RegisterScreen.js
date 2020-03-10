@@ -10,13 +10,13 @@ var radio_props = [
 ];
   
 
-const LoginScreen = (props) => {
+const RegisterScreen = (props) => {
     
     const [radioButton, setRadioButton] = useState(0)
 
     return (
         <View style={styles.container}>
-            <BackHeader title= 'Login'></BackHeader>
+            <BackHeader title= 'Register'></BackHeader>
             <View style={styles.pageStyle}>
               <Text style={{fontSize: 25}}> { "Username" }</Text>
               <TextInput style={styles.textInput}></TextInput>
@@ -26,14 +26,7 @@ const LoginScreen = (props) => {
 
               <TouchableHighlight style={{paddingTop: 30}} onPress={() => console.log('login button pressed')}>
                 <View style= { [styles.loginButton, { height: 60, width: 200 }] }>
-                  <Text style={ [styles.buttonText, {fontSize: 20}] }>{"Login"}</Text>
-                </View>
-              </TouchableHighlight>
-
-              <Text style={ {fontSize: 15, paddingHorizontal: 30, paddingTop: 100} }>{"If you don't already have an account, register here."}</Text>
-              <TouchableHighlight style={{paddingTop: 10}} onPress={() => console.log('login button pressed')}>
-                <View style= { [styles.loginButton, { height: 40, width: 150 }] }>
-                  <Text style={ [styles.buttonText, {fontSize: 15}] }>{"Register"}</Text>
+                  <Text style={ [styles.buttonText, {fontSize: 20}] }>{"Register"}</Text>
                 </View>
               </TouchableHighlight>
             </View>
@@ -71,4 +64,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LoginScreen
+export default RegisterScreen
