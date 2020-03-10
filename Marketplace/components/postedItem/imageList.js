@@ -28,7 +28,7 @@ function Item ({ id, title, onSelect }) {
     );
 }
 
-function ResultsList() {
+function ImageList() {
 
     const onSelect = React.useCallback(
       id => {
@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         flex: 1
     }
-  });
+});
 
-export default ResultsList
+export default ImageList

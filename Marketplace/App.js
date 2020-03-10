@@ -2,13 +2,14 @@ import React from 'react';
 import { useState } from 'react'
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import HomeScreen from './Screens/HomeScreen'
+import PostNewScreen from './Screens/PostNewScreen';
  
  
 
 
 export default function App() {
   return(
-    <HomeScreen></HomeScreen>
+    <PostNewScreen></PostNewScreen>
   )
 }
 
