@@ -32,7 +32,7 @@ const HomeScreen = (props) => {
                 formHorizontal={ true }
                 onPress= { (value) => {setRadioButton(value)}}>
             </RadioForm>
-            <ResultsList></ResultsList>
+            <ResultsList navigation={props.navigation}></ResultsList>
             
         </View>
   );

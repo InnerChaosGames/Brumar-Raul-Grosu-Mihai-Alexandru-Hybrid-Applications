@@ -3,13 +3,22 @@ import { StyleSheet, ScrollView, StatusBar } from 'react-native';
 import ImageList from '../components/postedItem/imageList'
 import ItemDetails from '../components/postedItem/itemDetails'
 
-const PostScreen = (props) => {
+const PostScreen = ({route, navigation}) => {
     
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <StatusBar hidden={ true}></StatusBar>
-            <ImageList></ImageList>
-            <ItemDetails></ItemDetails>
+            <ImageList images={ route.params.data.images}></ImageList>
+            <ItemDetails 
+                title= { route.params.data.title }
+                category= { route.params.data.category }
+                price= { route.params.data.askingPrice }
+                date= { route.params.data.dateOfPosting }
+                deliveryType= { route.params.data.deliveryType }
+                description= { route.params.data.description }
+                contactInfo= { route.params.data.contactInfo }
+                location= { route.params.data.location }>
+            </ItemDetails>
         </ScrollView>
   );
 };

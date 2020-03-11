@@ -64,6 +64,7 @@ const PostNewScreen = (props) => {
                     placeholderTextColor= { 'gray'}>
                 </TextInput>
                 <View style={{paddingTop: 30, paddingBottom: 5}}>
+                    <Text style= {{ fontSize: 20, paddingBottom: 5 ,borderBottomWidth: 1}}> { 'Delivery type:' }</Text>
                     <RadioForm
                     style= { styles.radioButton }
                     radio_props= { radio_props }

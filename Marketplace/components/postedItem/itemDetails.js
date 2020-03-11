@@ -8,27 +8,27 @@ const ItemDetails = (props) => {
 
     return (
         <View > 
-            <Text style={ styles.category }> { "Category: Furniture"}</Text>
+            <Text style={ styles.category }> { props.category}</Text>
             <View style={{paddingLeft: 5, paddingRight: 5, paddingTop: 5, paddingBottom: 5}}>
                 <View style = { styles.basicInfoContainer }>
-                    <Text style={{fontSize: 25, fontWeight: 'bold'}}> {"100 Eur"} </Text> 
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <Text style={{fontSize: 20, width: '75%'}}> {"Inchiriez apartament NOU 2 camere langa statia din Piata Unirii"} </Text>
-                        <Text style={{width: '25%'}}> {"20/03/2020"} </Text>
+                    <Text style={{fontSize: 25, fontWeight: 'bold'}}> { props.price } </Text> 
+                    <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom: 5}}>
+                        <Text style={{fontSize: 20, width: '75%'}}> {' Title'} </Text>
+                        <Text style={{width: '25%'}}> { props.date } </Text>
                     </View>
-                    <Text style= {{fontSize: 20, borderWidth: 2, borderRadius: 10, alignSelf: 'flex-start'}}> { "Delivery Type: Pickup "}</Text>
+                    <Text style= {{fontSize: 20, borderWidth: 2, borderRadius: 10, alignSelf: 'flex-start'}}> { "Delivery Type:" + props.deliveryType}</Text>
                 </View>
                 <View style= {{ paddingTop: 5}}>
                     <View style= { styles.basicInfoContainer}>
-                        <Text> {"Description is a very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very veryvvvvvv long description."} </Text>
+                        <Text> { props.description } </Text>
                     </View>
                 </View>
                 <View style= {{ paddingTop: 5}}>
                     <View style= { styles.basicInfoContainer}>
-                        <Text style={{ fontSize: 20}}> { "John Doe Tel: +358 0764 245 983"} </Text>
+                        <Text style={{ fontSize: 20}}> { props.contactInfo } </Text>
                         <View style={{ flexDirection: 'row', width: '80%'}}>
                             <MaterialIcons name='location-on' color='black' size={25}></MaterialIcons>
-                            <Text style={{ fontSize: 20}}> { "Ylioppilaantie 2, 90100 Oulu"} </Text>
+                            <Text style={{ fontSize: 20}}> { props.location } </Text>
                         </View>
                     </View>
                 </View>
