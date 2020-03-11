@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { useState } from 'react'
 import { StyleSheet, View, StatusBar, Image } from 'react-native';
 import Header from '../components/home/header';
@@ -11,31 +11,129 @@ var radio_props = [
     {label: 'Location', value: 1 },
     {label: 'Date', value: 2 }
 ];
-  
 
-const HomeScreen = (props) => {
-    
-    const [radioButton, setRadioButton] = useState(0)
 
-    return (
+
+export default class HomeScreen extends Component
+{
+    constructor(props)
+    {
+      super(props);
+      this.state = {
+        radioButton: 0,
+        items: []
+      }
+    }
+
+    searchByCategory = (searchValue) =>
+    {
+      console.log('getting items by category');
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/category/' + searchValue, {
+        method: 'GET'
+      })
+      .then(response => {
+        if (response.ok == false) {
+          throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log("Items by category GET successful")
+        console.log("Received following JSON");
+        
+        this.setState({items: json}, function() {
+          console.log(this.state.items);
+        });
+      })
+      .catch(error => {
+        console.log("Error message:")
+        console.log(error.message)
+      });
+    }
+
+    searchByLocation = (searchValue) =>
+    {
+      console.log('getting items by location');
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/location/' + searchValue, {
+        method: 'GET'
+      })
+      .then(response => {
+        if (response.ok == false) {
+          throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log("Items by location GET successful")
+        console.log("Received following JSON");
+
+        this.setState({items: json}, function() {
+          console.log(this.state.items);
+        });
+      })
+      .catch(error => {
+        console.log("Error message:")
+        console.log(error.message)
+      });
+    }
+
+    searchByDate = (searchValue) =>
+    {
+      console.log('getting items by date');
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/date/' + searchValue, {
+        method: 'GET'
+      })
+      .then(response => {
+        if (response.ok == false) {
+          throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log("Items by date GET successful")
+        console.log("Received following JSON");
+
+        this.setState({items: json}, function() {
+          console.log(this.state.items);
+        });
+      })
+      .catch(error => {
+        console.log("Error message:")
+        console.log(error.message)
+      });
+    }
+
+    searchLogic = (searchValue) =>
+    {
+      if (this.state.radioButton == 0)
+        this.searchByCategory(searchValue);
+      else if (this.state.radioButton == 1)
+        this.searchByLocation(searchValue);
+      else (this.state.radioButton == 2)
+        this.searchByDate(searchValue);
+    }
+
+    render(){
+      return (
         <View style={styles.container}>
-            <StatusBar hidden={ true}></StatusBar>
-            <Header height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={props.navigation}></Header>
-            <Searchbar></Searchbar>
-            <RadioForm
-                style= { styles.radioButton }
-                radio_props= { radio_props }
-                initial={ 0 }
-                buttonColor={ '#035aa1'}
-                selectedButtonColor= { '#035aa1'}
-                animation={ false }
-                formHorizontal={ true }
-                onPress= { (value) => {setRadioButton(value)}}>
-            </RadioForm>
-            <ResultsList></ResultsList>
-            
+          <StatusBar hidden={ true}></StatusBar>
+          <Header height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={this.props.navigation}></Header>
+          <Searchbar search= {this.searchLogic}></Searchbar>
+          <RadioForm
+            style= { styles.radioButton }
+            radio_props= { radio_props }
+            initial={ 0 }
+            buttonColor={ '#035aa1'}
+            selectedButtonColor= { '#035aa1'}
+            animation={ false }
+            formHorizontal={ true }
+            onPress= { (value) => {this.setState({radioButton: value})}}>
+          </RadioForm>
+          <ResultsList navigation={this.props.navigation} receivedData={this.state.items}></ResultsList>
+          
         </View>
-  );
+      );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -56,5 +154,3 @@ const styles = StyleSheet.create({
       borderWidth: 2
     }
 });
-
-export default HomeScreen

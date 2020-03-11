@@ -1,34 +1,20 @@
 import React from 'react';
 import { Dimensions, SafeAreaView, FlatList, View, Image, StyleSheet } from 'react-native';
 
-const Images = [
-    {
-      imageString: 'First Item'
-    },
-    {
-      imageString: 'Second Item'
-    },
-    {
-      imageString: 'Third Item'
-    },
-    {
-        imageString: 'Third Item'
-    },
-    {
-        imageString: 'Third Item'
-    }
-  ];
+var Images = [];
 
-function Item ({ id, title, onSelect }) {
+function Item ({ image }) {
     return (
 
     <View style={ {flexDirection: 'row', justifyContent: 'flex-start'} }>
-        <Image style = { styles.item } source={{uri: 'https://e-cdns-images.dzcdn.net/images/artist/524f377b4bc995b92a7d22c216492186/250x250-000000-80-0-0.jpg'}}></Image>
+        <Image style = { styles.item } source={{uri: image}}></Image>
     </View>
     );
 }
 
-function ImageList() {
+function ImageList(props) {
+
+    Images = props.images;
 
     const onSelect = React.useCallback(
       id => {
@@ -43,9 +29,7 @@ function ImageList() {
           data={Images}
           renderItem={({ item }) => (
             <Item
-              id={item.id}
-              title={item.title}
-              onSelect={onSelect}
+              image={ item }
             />
           )}
           keyExtractor={item => item.id}

@@ -18,7 +18,7 @@ const Searchbar = (props) => {
                 placeholder="Search the marketplace..."
                 onChangeText={ value => setSearchValue(value)}
                 returnKeyType= 'search'
-                onSubmitEditing={() => console.log('ok')}>
+                onSubmitEditing={() => props.search(searchValue)}>
             </SearchBar>
         </View>
     )

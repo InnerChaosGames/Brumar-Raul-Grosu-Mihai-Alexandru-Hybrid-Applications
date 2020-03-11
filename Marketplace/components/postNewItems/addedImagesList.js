@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dimensions, SafeAreaView, FlatList, View, Image, StyleSheet } from 'react-native';
 
-const Images = [
+var Images = [
     {
-      imageString: 'First Item'
+        imageString: 'First Item'
     },
     {
         imageString: 'First Item'
@@ -13,17 +13,18 @@ const Images = [
     }
 ];
 
-function Item ({ id, title, onSelect }) {
+function Item ({ image }) {
     return (
 
     <View style={ {flexDirection: 'row', justifyContent: 'flex-start'} }>
-        <Image style = { styles.item } source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}></Image>
+        <Image style = { styles.item } source={{uri: image}}></Image>
     </View>
     );
 }
 
-function AddedImagesList() {
+function AddedImagesList(props) {
 
+    Images = props.images;
     const onSelect = React.useCallback(
       id => {
           console.log(id);
@@ -37,9 +38,7 @@ function AddedImagesList() {
           data={Images}
           renderItem={({ item }) => (
             <Item
-              id={item.id}
-              title={item.title}
-              onSelect={onSelect}
+              image={item.imageString}
             />
           )}
           keyExtractor={item => item.id}
