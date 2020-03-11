@@ -8,24 +8,24 @@ const categories= ['Vehicles', 'Real Estate', 'Jobs', 'Electonics & Appliances',
 
 var DATA = [];
 
-function Item({ id, title, onSelect }) {
+function Item({ id, title, price, location, date, image, onSelect }) {
   return (
     <TouchableOpacity
       onPress={() => onSelect(id)}
       style={ styles.item }
     >
     <View style={ {flexDirection: 'row', justifyContent: 'flex-start'} }>
-        <Image style={{width: 110, height: 110}} source={{uri: 'https://e-cdns-images.dzcdn.net/images/artist/524f377b4bc995b92a7d22c216492186/250x250-000000-80-0-0.jpg'}}></Image>
+        <Image style={{width: 110, height: 110}} source={{uri: image}}></Image>
         <View style={{ padding: 5, width: 215}}>
-            <Text numberOfLines={1} style={styles.title}>{"100 EUR"}</Text>
+            <Text numberOfLines={1} style={styles.title}>{price}</Text>
             <Text numberOfLines={1} style={styles.description}>{title}</Text>
             <View style={{ flexDirection: 'row', width: 170}}>
               <MaterialIcons name='location-on' color='black' size={20}></MaterialIcons>
-              <Text numberOfLines={1}> { "Location"}</Text>
+              <Text numberOfLines={1}> { location}</Text>
             </View>
             <View style={{ flexDirection: 'row', width: 170}}>
               <MaterialCommunityIcons name='clock-outline' color='black' size={20}></MaterialCommunityIcons>
-              <Text numberOfLines={1}> { "Date"}</Text>
+              <Text numberOfLines={1}> { date}</Text>
             </View>
         </View>
     </View>
@@ -51,6 +51,10 @@ const ResultsList = (props) => {
           <Item
             id={item.id}
             title={item.title}
+            price={item.askingPrice}
+            location={item.location}
+            date={item.dateOfPosting}
+            image={item.images[0]}
             onSelect={onSelect}
           />
         )}
