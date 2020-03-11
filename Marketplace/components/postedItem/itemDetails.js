@@ -25,7 +25,7 @@ const ItemDetails = (props) => {
                 </View>
                 <View style= {{ paddingTop: 5}}>
                     <View style= { styles.basicInfoContainer}>
-                        <Text style={{ fontSize: 20}}> { props.contactInfo } </Text>
+                        <Text style={{ fontSize: 20}}> { props.sellerInfo } </Text>
                         <View style={{ flexDirection: 'row', width: '80%'}}>
                             <MaterialIcons name='location-on' color='black' size={25}></MaterialIcons>
                             <Text style={{ fontSize: 20}}> { props.location } </Text>

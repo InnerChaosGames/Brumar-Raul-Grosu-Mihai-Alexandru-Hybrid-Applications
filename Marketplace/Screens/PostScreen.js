@@ -16,7 +16,7 @@ const PostScreen = ({route, navigation}) => {
                 date= { route.params.data.dateOfPosting }
                 deliveryType= { route.params.data.deliveryType }
                 description= { route.params.data.description }
-                contactInfo= { route.params.data.contactInfo }
+                sellerInfo= { route.params.data.sellerInfo }
                 location= { route.params.data.location }>
             </ItemDetails>
         </ScrollView>
