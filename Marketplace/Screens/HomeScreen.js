@@ -25,10 +25,10 @@ export default class HomeScreen extends Component
       }
     }
 
-    searchByCategory = () =>
+    searchByCategory = (searchValue) =>
     {
       console.log('getting items by category');
-      fetch('https://marketplaceapialexraul.azurewebsites.net/search/category/' + 'furniture', {
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/category/' + searchValue, {
         method: 'GET'
       })
       .then(response => {
