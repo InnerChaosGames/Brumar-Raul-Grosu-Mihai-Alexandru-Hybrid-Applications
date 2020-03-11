@@ -6,13 +6,19 @@ import ItemDetails from '../components/postedItem/itemDetails'
 import BackHeader from '../components/backHeader';
 import AddedImagesList from '../components/postNewItems/addedImagesList'
 import Dropdown from 'react-native-modal-dropdown';
+import RadioForm from 'react-native-simple-radio-button';
 
-
-var data = [["C", "Java", "JavaScript", "PHP"], ["Python", "Ruby"], ["Swift", "Objective-C"]];
+const categories= ['Vehicles', 'Real Estate', 'Jobs', 'Electonics & Appliances', 'Furniture', 'Mobiles', 'Pets', 'Books', 'Fashion', 'Services', 'Sports & Hobbies'];
   
+var radio_props = [
+    {label: 'Shipping', value: 0 },
+    {label: 'Pickup', value: 1 },
+];
+
 const PostNewScreen = (props) => {
     
-    const [state, setState] = useState(0)
+    const [radioButton, setRadioButton] = useState(0);
+
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -23,11 +29,11 @@ const PostNewScreen = (props) => {
                 <AddedImagesList></AddedImagesList>
                 <View style={{paddingTop: 10, paddingBottom: 5}}>
                     <Dropdown 
-                        options={['option 1', 'option 2']}
+                        options={ categories }
                         textStyle={ styles.dropdownText}
                         defaultValue={ 'Choose Category'}
                         style= { styles.dropdownButtonStyle}
-                        dropdownStyle = { [styles.dropdownStyle, { height: 'auto'}]}
+                        dropdownStyle = { [styles.dropdownStyle, { height: '40%'}]}
                         dropdownTextStyle = {{ fontSize: 20}}
                         dropdownTextHighlightStyle={{ color: 'green'}}>
                     </Dropdown>
@@ -58,15 +64,16 @@ const PostNewScreen = (props) => {
                     placeholderTextColor= { 'gray'}>
                 </TextInput>
                 <View style={{paddingTop: 30, paddingBottom: 5}}>
-                    <Dropdown 
-                        options={['Shipping', 'Pickup']}
-                        textStyle={ styles.dropdownText}
-                        defaultValue={ 'Delivery Type'}
-                        style= { styles.dropdownButtonStyle}
-                        dropdownStyle = { styles.dropdownStyle}
-                        dropdownTextStyle = {{ fontSize: 20}}
-                        dropdownTextHighlightStyle={{ color: 'green'}}>
-                    </Dropdown>
+                    <RadioForm
+                    style= { styles.radioButton }
+                    radio_props= { radio_props }
+                    initial={ 0 }
+                    buttonColor={ '#035aa1'}
+                    selectedButtonColor= { '#035aa1'}
+                    animation={ false }
+                    formHorizontal={ true }
+                    onPress= { (value) => {setRadioButton(value)}}>
+                    </RadioForm>
                 </View>
                 <TouchableHighlight 
                     style={{paddingTop: 10}}
@@ -111,7 +118,17 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 17,
         fontWeight: '700'
-    }
+    },
+    radioButton: {
+        paddingTop: 10,
+        justifyContent: 'space-around',
+        paddingBottom: 10,
+        borderTopColor: 'transparent',
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderBottomColor: '#035aa1',
+        borderWidth: 2
+      }
 })
 
 export default PostNewScreen
