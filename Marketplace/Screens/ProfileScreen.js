@@ -5,6 +5,7 @@ import Header from '../components/profile/header';
 import Searchbar from '../components/home/searchbar';
 import RadioForm from 'react-native-simple-radio-button';
 import ResultsList from '../components/home/resultsList'
+import ProfileResultsList from '../components/profile/profileResultsList'
 
 var radio_props = [
     {label: 'Category', value: 0 },
@@ -73,7 +74,7 @@ export default class ProfileScreen extends Component
                 <View style={{paddingTop: 10, paddingBottom: 10}}>
                     <Text style={ styles.category }> { 'My postings: '}</Text>
                 </View>
-                <ResultsList navigation={this.props.navigation} receivedData={this.state.items}></ResultsList>
+                <ProfileResultsList navigation={this.props.navigation} receivedData={this.state.items}></ProfileResultsList>
             </View>
         );
     }
