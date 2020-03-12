@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableHighlight, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import BackHeader from '../components/backHeader'
 
 var radio_props = [
@@ -24,18 +24,18 @@ const LoginScreen = (props) => {
               <Text style={[{fontSize: 25}, {paddingTop: 15}]}> { "Password" }</Text>
               <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
 
-              <TouchableHighlight style={{paddingTop: 30}} onPress={() => console.log('login button pressed')}>
+              <TouchableOpacity style={{paddingTop: 30}} onPress={() => console.log('login button pressed')}>
                 <View style= { [styles.loginButton, { height: 60, width: 200 }] }>
                   <Text style={ [styles.buttonText, {fontSize: 20}] }>{"Login"}</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
 
               <Text style={ {fontSize: 15, paddingHorizontal: 30, paddingTop: 100} }>{"If you don't already have an account, register here."}</Text>
-              <TouchableHighlight style={{paddingTop: 10}} onPress={() => props.navigation.navigate('RegisterScreen')}>
+              <TouchableOpacity style={{paddingTop: 10}} onPress={() => props.navigation.navigate('RegisterScreen')}>
                 <View style= { [styles.loginButton, { height: 40, width: 150 }] }>
                   <Text style={ [styles.buttonText, {fontSize: 15}] }>{"Register"}</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
         </View>
   );

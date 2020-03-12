@@ -1,22 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 
 const Header = (props) => {
     return (
     <View style={ styles.main }>
-        <TouchableHighlight onPress={() => props.navigation.navigate('LoginScreen')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('LoginScreen')}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button1}</Text>
             </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <Text style={styles.titleText}>{props.title}</Text>
-        <TouchableHighlight onPress={() => props.navigation.navigate('PostNewScreen')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('PostNewScreen')}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button2}</Text>
             </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
     </View>
     )
 }
