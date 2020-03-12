@@ -6,12 +6,11 @@ import Searchbar from '../components/home/searchbar';
 import RadioForm from 'react-native-simple-radio-button';
 import ResultsList from '../components/home/resultsList'
 import ProfileResultsList from '../components/profile/profileResultsList'
+import * as SecureStore from 'expo-secure-store'
+import base64 from 'react-native-base64'
 
-var radio_props = [
-    {label: 'Category', value: 0 },
-    {label: 'Location', value: 1 },
-    {label: 'Date', value: 2 }
-];
+const secureStoreToken = 'loginJWT'
+
 
 export default class ProfileScreen extends Component
 {
@@ -20,14 +19,50 @@ export default class ProfileScreen extends Component
       super(props);
       this.state = {
         items: [],
-        loading: true
+        loading: true,
+        activeJWT: null
       }
+    }
+
+    componentDidMount() {
+        // Check for stored JWT when the application loads
+        SecureStore.getItemAsync(secureStoreToken)
+        .then(response => {
+          console.log("SecureStore.getItemAsync success")        
+          this.setState({ activeJWT: response })
+          this.searchByUserId();
+        })
+        .catch(error => {
+          console.log("SecureStore.getItemAsync error")
+          console.log(error);
+        });
     }
 
     searchByUserId = (searchValue) =>
     {
+      var mySubString = this.state.activeJWT.split('.')[1];
+      
+      console.log(mySubString);
+      var decodedValue = base64.decode(mySubString);
+      decodedValue = decodedValue.replace(/\n/g, "\n")
+               .replace(/\'/g, "\'")
+               .replace(/\"/g, '\"')
+               .replace(/\&/g, "\&")
+               .replace(/\r/g, "\r")
+               .replace(/\t/g, "\t")
+               .replace(/\b/g, "\b")
+               .replace(/\f/g, "\f");
+      // remove non-printable and other non-valid JSON chars
+      decodedValue = decodedValue.replace(/[\u0000-\u0019]+/g,"");
+      
+      console.log(decodedValue)
+
+      var item = JSON.parse(decodedValue)
+
+      console.log(item.user.id);
+
       console.log('getting items by userId');
-      fetch('https://marketplaceapialexraul.azurewebsites.net/search/user/' + 'dc7015c4-1523-41fe-b322-0eacaeec9b80', {
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/user/' + item.user.id, {
         method: 'GET'
       })
       .then(response => {
@@ -48,10 +83,6 @@ export default class ProfileScreen extends Component
         console.log("Error message:")
         console.log(error.message)
       });
-    }
-
-    componentDidMount() {
-        this.searchByUserId();
     }
 
     render(){
