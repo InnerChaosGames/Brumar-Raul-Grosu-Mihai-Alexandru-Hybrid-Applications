@@ -65,7 +65,12 @@ export default class ProfileScreen extends Component
         return (
             <View style={styles.container}>
                 <StatusBar hidden={ true}></StatusBar>
-                <Header height={ 30 } button1={'Login'} button2={'Post'} title={'My Profile'} navigation={this.props.navigation}></Header>
+                <Header 
+                  height={ 30 }
+                  button1={'Login'} 
+                  button2={'Post'} 
+                  title={'My Profile'}  
+                  navigation={this.props.navigation}></Header>
                 <View style={{padding: 5, paddingTop: 10}}>
                     <View style={ styles.basicInfoContainer}>
                         <Text style={{fontSize: 25, fontWeight: 'bold'}}> {'Name: '} </Text>

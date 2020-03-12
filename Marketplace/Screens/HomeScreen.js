@@ -27,17 +27,21 @@ export default class HomeScreen extends Component
       }
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
+      this.load();
+    }
+
+    load = () => {
       // Check for stored JWT when the application loads
       SecureStore.getItemAsync(secureStoreToken)
-        .then(response => {
-          console.log("SecureStore.getItemAsync success")        
-          this.setState({ activeJWT: response })
-        })
-        .catch(error => {
-          console.log("SecureStore.getItemAsync error")
-          console.log(error);
-        });
+      .then(response => {
+        console.log("SecureStore.getItemAsync success")        
+        this.setState({ activeJWT: response })
+      })
+      .catch(error => {
+        console.log("SecureStore.getItemAsync error")
+        console.log(error);
+      });
     }
 
     receiveJWTFromLogin = (responseJWT) => {
@@ -48,7 +52,6 @@ export default class HomeScreen extends Component
           this.setState({ activeJWT: responseJWT})
         })    
     }
-  
 
     searchByCategory = (searchValue) =>
     {
@@ -138,6 +141,7 @@ export default class HomeScreen extends Component
         this.searchByDate(searchValue);
     }
 
+    // Returns the right header based on the stored jwt
     headerLogic = () =>{
       if (this.state.activeJWT) {
         return (
@@ -161,6 +165,7 @@ export default class HomeScreen extends Component
               title={'Marketplace'} 
               navigation={this.props.navigation}
               receiveJWT={this.receiveJWTFromLogin}
+              logout={this.logout}
               screenToLoad={'LoginScreen'}
               JWT={ this.state.activeJWT }>
             </Header>

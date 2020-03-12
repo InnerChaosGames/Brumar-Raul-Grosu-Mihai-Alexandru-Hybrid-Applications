@@ -3,6 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
+import * as SecureStore from 'expo-secure-store'
+
+const secureStoreToken = 'loginJWT'
+
+function logout(props) {
+    SecureStore.deleteItemAsync(secureStoreToken)
+      .then(() => {
+        props.navigation.pop();
+      })
+  }
 
 const BackHeader = (props) => {
     return (
@@ -13,7 +23,7 @@ const BackHeader = (props) => {
             </View>
         </TouchableOpacity>
         <Text style={styles.titleText}>{props.title}</Text>
-        <TouchableOpacity style={{paddingTop: 10, paddingBottom: 10}} onPress={() => console.log('logout')}>
+        <TouchableOpacity style={{paddingTop: 10, paddingBottom: 10}} onPress={() => { logout(props)}}>
             <View style= { [styles.button, { height: 45, width: 60 }, {alignItems: 'center'}] }>
                 <Text> { 'Logout' }</Text>
             </View>
