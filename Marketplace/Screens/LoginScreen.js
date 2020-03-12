@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import BackHeader from '../components/backHeader'
+import { Base64 } from 'js-base64'
 
 var radio_props = [
     {label: 'Category', value: 0 },
@@ -9,22 +10,49 @@ var radio_props = [
     {label: 'Date', value: 2 }
 ];
   
+function login(loginUsername, loginPassword)
+{
+    console.log('Loging in ' + loginUsername + ' with password: ' + loginPassword);
+    fetch('https://marketplaceapialexraul.azurewebsites.net/auth/loginForJWT', {
+      method: 'GET',
+      headers: {
+        "Authorization": "Basic " + Base64.encode(loginUsername + ":" + loginPassword)
+      }
+    })
+    .then(response => {
+      if (response.status != 200) {
+        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+      }
+      return response.json();
+    })
+    .then(json => {
+      console.log("Logged in user successfully!")
+      console.log('Token: ' + json.token);
+
+      // save token
+    })
+    .catch(error => {
+        console.log("Error message:")
+        console.log(error.message)
+    });
+}
 
 const LoginScreen = (props) => {
     
-    const [radioButton, setRadioButton] = useState(0)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
     return (
         <View style={styles.container}>
             <BackHeader title= 'Login' navigation={props.navigation}></BackHeader>
             <View style={styles.pageStyle}>
               <Text style={{fontSize: 25}}> { "Username" }</Text>
-              <TextInput style={styles.textInput}></TextInput>
+              <TextInput style={styles.textInput} onChangeText={(value) => setUsername(value)}></TextInput>
             
               <Text style={[{fontSize: 25}, {paddingTop: 15}]}> { "Password" }</Text>
-              <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
+              <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={(value) => setPassword(value)}></TextInput>
 
-              <TouchableOpacity style={{paddingTop: 30}} onPress={() => console.log('login button pressed')}>
+              <TouchableOpacity style={{paddingTop: 30}} onPress={() => login(username, password)}>
                 <View style= { [styles.loginButton, { height: 60, width: 200 }] }>
                   <Text style={ [styles.buttonText, {fontSize: 20}] }>{"Login"}</Text>
                 </View>
