@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import BackHeader from '../components/backHeader'
+import Toast from 'react-native-simple-toast'
 
 var radio_props = [
     {label: 'Category', value: 0 },
@@ -9,7 +10,7 @@ var radio_props = [
     {label: 'Date', value: 2 }
 ];
   
-function register(newUsername, newPassword, newEmail)
+function register(newUsername, newPassword, newEmail, navigation)
 {
     console.log('registering ' + newUsername + ' with password: ' + newPassword + ' and email: ' + newEmail);
     fetch('https://marketplaceapialexraul.azurewebsites.net/auth/register', {
@@ -31,6 +32,10 @@ function register(newUsername, newPassword, newEmail)
     })
     .then(json => {
       console.log("Created user successfully!")
+
+      Toast.show('Created user successfully!')
+      navigation.pop();
+      
     })
     .catch(error => {
         console.log("Error message:")
@@ -59,7 +64,7 @@ const RegisterScreen = (props) => {
               <Text style={[{fontSize: 25}, {paddingTop: 15}]}> { "Email" }</Text>
               <TextInput style={styles.textInput} onChangeText={(value) => setInputEmail(value)}></TextInput>
 
-              <TouchableOpacity style={{paddingTop: 30}} onPress={() => register(inputUsername, inputPassword, inputEmail)}>
+              <TouchableOpacity style={{paddingTop: 30}} onPress={() => register(inputUsername, inputPassword, inputEmail, props.navigation)}>
                 <View style= { [styles.loginButton, { height: 60, width: 200 }] }>
                   <Text style={ [styles.buttonText, {fontSize: 20}] }>{"Register"}</Text>
                 </View>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import BackHeader from '../components/backHeader'
 import { Base64 } from 'js-base64'
+import Toast from 'react-native-simple-toast'
 
 var radio_props = [
     {label: 'Category', value: 0 },
@@ -28,6 +29,8 @@ function login(loginUsername, loginPassword, receiveJWT, navigation)
     .then(json => {
       console.log("Logged in user successfully!")
       console.log('Token: ' + json.token);
+
+      Toast.show('Successfully logged in')
 
       // save token
       receiveJWT(json.token)

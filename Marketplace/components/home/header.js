@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons} from '@expo/vector-icons'
+import Toast from 'react-native-simple-toast'
 
 const Header = (props) => {
     return (
@@ -12,7 +13,7 @@ const Header = (props) => {
             </View>
         </TouchableOpacity>
         <Text style={styles.titleText}>{props.title}</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate('PostNewScreen')}>
+        <TouchableOpacity onPress={() => {if(!props.JWT) Toast.show('You need to login'); else props.navigation.navigate('PostNewScreen')}}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button2}</Text>
             </View>
