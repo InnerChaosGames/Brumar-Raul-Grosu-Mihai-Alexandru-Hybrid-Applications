@@ -5,6 +5,7 @@ import Header from '../components/home/header';
 import Searchbar from '../components/home/searchbar';
 import RadioForm from 'react-native-simple-radio-button';
 import ResultsList from '../components/home/resultsList'
+import * as SecureStore from 'expo-secure-store'
 
 var radio_props = [
     {label: 'Category', value: 0 },
@@ -12,7 +13,7 @@ var radio_props = [
     {label: 'Date', value: 2 }
 ];
 
-
+const secureStoreToken = 'loginJWT'
 
 export default class HomeScreen extends Component
 {
@@ -21,9 +22,33 @@ export default class HomeScreen extends Component
       super(props);
       this.state = {
         radioButton: 0,
-        items: []
+        items: [],
+        activeJWT: null
       }
     }
+
+    componentDidMount() {
+      // Check for stored JWT when the application loads
+      SecureStore.getItemAsync(secureStoreToken)
+        .then(response => {
+          console.log("SecureStore.getItemAsync success")        
+          this.setState({ activeJWT: response })
+        })
+        .catch(error => {
+          console.log("SecureStore.getItemAsync error")
+          console.log(error);
+        });
+    }
+
+    receiveJWTFromLogin = (responseJWT) => {
+      // Deal with successful login by storing the token into secure store
+      SecureStore.setItemAsync(secureStoreToken, responseJWT)
+        .then(response => {
+          console.log(response);
+          this.setState({ activeJWT: responseJWT})
+        })    
+    }
+  
 
     searchByCategory = (searchValue) =>
     {
@@ -113,11 +138,42 @@ export default class HomeScreen extends Component
         this.searchByDate(searchValue);
     }
 
+    headerLogic = () =>{
+      if (this.state.activeJWT) {
+        return (
+          <Header 
+              height={ 30 } 
+              button1={'Profile'} 
+              button2={'Post'} 
+              title={'Marketplace'} 
+              navigation={this.props.navigation}
+              receiveJWT={this.receiveJWTFromLogin}
+              screenToLoad={'ProfileScreen'}
+              JWT={ this.state.activeJWT }>
+            </Header>
+        )
+      } else {
+        return (
+          <Header 
+              height={ 30 } 
+              button1={'Login'} 
+              button2={'Post'} 
+              title={'Marketplace'} 
+              navigation={this.props.navigation}
+              receiveJWT={this.receiveJWTFromLogin}
+              screenToLoad={'LoginScreen'}
+              JWT={ this.state.activeJWT }>
+            </Header>
+        )
+      }
+      
+    }
+
     render(){
       return (
         <View style={styles.container}>
           <StatusBar hidden={ true}></StatusBar>
-          <Header height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={this.props.navigation}></Header>
+          {this.headerLogic() }
           <Searchbar search= {this.searchLogic}></Searchbar>
           <RadioForm
             style= { styles.radioButton }

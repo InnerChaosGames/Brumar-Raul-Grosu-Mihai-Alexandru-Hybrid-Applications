@@ -6,7 +6,7 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 const Header = (props) => {
     return (
     <View style={ styles.main }>
-        <TouchableOpacity onPress={() => props.navigation.navigate('LoginScreen')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate(props.screenToLoad, { receiveJWT: props.receiveJWT, JWT: props.JWT })}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button1}</Text>
             </View>
