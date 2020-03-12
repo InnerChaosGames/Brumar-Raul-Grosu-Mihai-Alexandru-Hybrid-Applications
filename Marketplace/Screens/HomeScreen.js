@@ -27,22 +27,22 @@ export default class HomeScreen extends Component
       }
     }
 
-    componentDidUpdate() {
-      this.load();
+    componentDidMount() {
+      this.props.navigation.addListener('focus', () => {
+        console.log("ceva")
+        // Check for stored JWT when the application loads
+        SecureStore.getItemAsync(secureStoreToken)
+        .then(response => {
+          console.log("SecureStore.getItemAsync success")        
+          this.setState({ activeJWT: response })
+        })
+        .catch(error => {
+          console.log("SecureStore.getItemAsync error")
+          console.log(error);
+        });
+      })
     }
 
-    load = () => {
-      // Check for stored JWT when the application loads
-      SecureStore.getItemAsync(secureStoreToken)
-      .then(response => {
-        console.log("SecureStore.getItemAsync success")        
-        this.setState({ activeJWT: response })
-      })
-      .catch(error => {
-        console.log("SecureStore.getItemAsync error")
-        console.log(error);
-      });
-    }
 
     receiveJWTFromLogin = (responseJWT) => {
       // Deal with successful login by storing the token into secure store
