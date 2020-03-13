@@ -13,7 +13,7 @@ const Header = (props) => {
             </View>
         </TouchableOpacity>
         <Text style={styles.titleText}>{props.title}</Text>
-        <TouchableOpacity onPress={() => {if(!props.JWT) Toast.show('You need to login'); else props.navigation.navigate('PostNewScreen')}}>
+        <TouchableOpacity onPress={() => {if(!props.JWT) Toast.show('You need to login'); else props.navigation.navigate('PostNewScreen', {JWT: props.JWT})}}>
             <View style= { [styles.button, { height: 45, width: 80 }] }>
                 <Text style={ styles.buttonText}>{ props.button2}</Text>
             </View>
