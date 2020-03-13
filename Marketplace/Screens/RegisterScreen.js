@@ -12,6 +12,13 @@ var radio_props = [
   
 function register(newUsername, newPassword, newEmail, navigation)
 {
+    var validator = require("email-validator");
+ 
+    if (!validator.validate(newEmail))
+    {
+      Toast.show('Please add a valid email address');
+      return;
+    }
     console.log('registering ' + newUsername + ' with password: ' + newPassword + ' and email: ' + newEmail);
     fetch('https://marketplaceapialexraul.azurewebsites.net/auth/register', {
       method: 'POST',

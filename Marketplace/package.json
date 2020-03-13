@@ -11,6 +11,7 @@
     "@react-native-community/masked-view": "0.1.5",
     "@react-navigation/native": "^5.0.5",
     "@react-navigation/stack": "^5.0.5",
+    "email-validator": "^2.0.4",
     "expo": "~36.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-permissions": "^8.0.0",
