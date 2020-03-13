@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableHighlight, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import BackHeader from '../components/backHeader'
+import { Base64 } from 'js-base64'
+import Toast from 'react-native-simple-toast'
 
 var radio_props = [
     {label: 'Category', value: 0 },
@@ -9,33 +11,64 @@ var radio_props = [
     {label: 'Date', value: 2 }
 ];
   
+function login(loginUsername, loginPassword, receiveJWT, navigation)
+{
+    console.log('Loging in ' + loginUsername + ' with password: ' + loginPassword);
+    fetch('https://marketplaceapialexraul.azurewebsites.net/auth/loginForJWT', {
+      method: 'GET',
+      headers: {
+        "Authorization": "Basic " + Base64.encode(loginUsername + ":" + loginPassword)
+      }
+    })
+    .then(response => {
+      if (response.status != 200) {
+        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+      }
+      return response.json();
+    })
+    .then(json => {
+      console.log("Logged in user successfully!")
+      console.log('Token: ' + json.token);
 
-const LoginScreen = (props) => {
+      Toast.show('Successfully logged in')
+
+      // save token
+      receiveJWT(json.token)
+      navigation.pop();
+    })
+    .catch(error => {
+        console.log("Error message:")
+        console.log(error.message)
+    });
+}
+
+const LoginScreen = ({route, navigation}) => {
     
-    const [radioButton, setRadioButton] = useState(0)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
     return (
         <View style={styles.container}>
-            <BackHeader title= 'Login' navigation={props.navigation}></BackHeader>
+            <BackHeader title= 'Login' navigation={navigation}></BackHeader>
             <View style={styles.pageStyle}>
               <Text style={{fontSize: 25}}> { "Username" }</Text>
-              <TextInput style={styles.textInput}></TextInput>
+              <TextInput style={styles.textInput} onChangeText={(value) => setUsername(value)}></TextInput>
             
               <Text style={[{fontSize: 25}, {paddingTop: 15}]}> { "Password" }</Text>
-              <TextInput style={styles.textInput} secureTextEntry={true}></TextInput>
+              <TextInput style={styles.textInput} secureTextEntry={true} onChangeText={(value) => setPassword(value)}></TextInput>
 
-              <TouchableHighlight style={{paddingTop: 30}} onPress={() => console.log('login button pressed')}>
+              <TouchableOpacity style={{paddingTop: 30}} onPress={() => login(username, password, route.params.receiveJWT, navigation)}>
                 <View style= { [styles.loginButton, { height: 60, width: 200 }] }>
                   <Text style={ [styles.buttonText, {fontSize: 20}] }>{"Login"}</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
 
               <Text style={ {fontSize: 15, paddingHorizontal: 30, paddingTop: 100} }>{"If you don't already have an account, register here."}</Text>
-              <TouchableHighlight style={{paddingTop: 10}} onPress={() => props.navigation.navigate('RegisterScreen')}>
+              <TouchableOpacity style={{paddingTop: 10}} onPress={() => navigation.navigate('RegisterScreen')}>
                 <View style= { [styles.loginButton, { height: 40, width: 150 }] }>
                   <Text style={ [styles.buttonText, {fontSize: 15}] }>{"Register"}</Text>
                 </View>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
         </View>
   );

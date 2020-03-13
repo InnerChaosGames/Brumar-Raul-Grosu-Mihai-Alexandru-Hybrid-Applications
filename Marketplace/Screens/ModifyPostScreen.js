@@ -19,22 +19,22 @@ var radio_props = [
     {label: 'Pickup', value: 1 },
 ];
 
-const PostNewScreen = ({route, navigation}) => {
-    const [pickedImages, setPickedImages] = useState([]);
+const ModifyPostScreen = ({route, navigation}) => {
+    const [pickedImages, setPickedImages] = useState(route.params.item.images);
 
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState(route.params.item.category);
 
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(route.params.item.title);
 
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState(route.params.item.description);
     
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState(route.params.item.askingPrice);
     
-    const [location, setLocation] = useState('');
+    const [location, setLocation] = useState(route.params.item.location);
     
-    const [contactInfo, setContactInfo] = useState('');
+    const [contactInfo, setContactInfo] = useState(route.params.item.sellerInfo);
 
-    const [deliveryType, setDeliveryType] = useState('Shipping');
+    const [deliveryType, setDeliveryType] = useState(route.params.item.deliveryType);
 
     openImagePickerAsync = async () => {
         if (pickedImages.length >= 4)
@@ -63,29 +63,8 @@ const PostNewScreen = ({route, navigation}) => {
         setPickedImages([...pickedImages, 'data:image/png;base64,' + pickerResult.base64]);
     }
 
-    function createPost()
+    function updatePost()
     {
-        var mySubString = route.params.JWT.split('.')[1];
-      
-        console.log(mySubString);
-        var decodedValue = base64.decode(mySubString);
-        decodedValue = decodedValue.replace(/\n/g, "\n")
-                .replace(/\'/g, "\'")
-                .replace(/\"/g, '\"')
-                .replace(/\&/g, "\&")
-                .replace(/\r/g, "\r")
-                .replace(/\t/g, "\t")
-                .replace(/\b/g, "\b")
-                .replace(/\f/g, "\f");
-        // remove non-printable and other non-valid JSON chars
-        decodedValue = decodedValue.replace(/[\u0000-\u0019]+/g,"");
-        
-        console.log(decodedValue)
-
-        var item = JSON.parse(decodedValue)
-
-        console.log(item.user.id);
-
         if (title == '')
         {
             Toast.show("You must include a title");
@@ -122,17 +101,19 @@ const PostNewScreen = ({route, navigation}) => {
             return;
         }
 
+        var date = new Date();
+        date = date.getFullYear() + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);
         fetch('https://marketplaceapialexraul.azurewebsites.net' + '/items', {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify({
-                userId: item.user.id,
+                id: route.params.item.id,
                 title: title,
                 description: description,
                 category: category,
                 location: location,
                 images: pickedImages,
                 askingPrice: price,
-                dateOfPosting: "10-03-2020",
+                dateOfPosting: date,
                 deliveryType: deliveryType,
                 sellerInfo: contactInfo
               }),
@@ -142,14 +123,15 @@ const PostNewScreen = ({route, navigation}) => {
             },
           })
           .then(response => {
-            if (response.status != 201) {
+            if (response.status != 200) {
               throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
             }
             // return response.json();
           })
           .then(json => {
-            console.log("Successfully Created with response " + json)
-            Toast.show('Successfully created item');
+            console.log("Successfully updated with response " + json)
+            Toast.show('Successfully updated item');
+            route.params.refreshCallback();
             navigation.pop();
           })
           .catch(error => {
@@ -161,13 +143,13 @@ const PostNewScreen = ({route, navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <StatusBar hidden={ true}></StatusBar>
-            <BackHeader height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={navigation}> </BackHeader>
+            <BackHeader height={ 30 } button1={'Login'} button2={'Post'} title={'Modify item'} navigation={navigation}> </BackHeader>
             <View style={{padding: 5}}>
                 <View style={{paddingTop: 20, paddingBottom: 5}}>
                     <Dropdown 
                         options={ categories }
                         textStyle={ styles.dropdownText}
-                        defaultValue={ 'Choose Category'}
+                        defaultValue={category}
                         style= { styles.dropdownButtonStyle}
                         dropdownStyle = { [styles.dropdownStyle, { height: '40%'}]}
                         dropdownTextStyle = {{ fontSize: 20}}
@@ -177,30 +159,35 @@ const PostNewScreen = ({route, navigation}) => {
                 </View>
                 <TextInput 
                     style={ [styles.inputStyle, {paddingTop: 30}] } 
+                    defaultValue={title}
                     placeholder= { "Title" }
                     placeholderTextColor= { 'gray'}
                     onChangeText={value => {setTitle(value)}}>
                 </TextInput>
                 <TextInput 
                     style={ [styles.inputStyle, {paddingTop: 30}] } 
+                    defaultValue={description}
                     placeholder= { "Description" }
                     placeholderTextColor= { 'gray'}
                     onChangeText={value => {setDescription(value)}}>
                 </TextInput>
                 <TextInput 
                     style={ [styles.inputStyle, {paddingTop: 30}] } 
+                    defaultValue={price}
                     placeholder= { "Price" }
                     placeholderTextColor= { 'gray'}
                     onChangeText={value => {setPrice(value)}}>
                 </TextInput>
                 <TextInput 
                     style={ [styles.inputStyle, {paddingTop: 30}] } 
+                    defaultValue={location}
                     placeholder= { "Location" }
                     placeholderTextColor= { 'gray'}
                     onChangeText={value => {setLocation(value)}}>
                 </TextInput>
                 <TextInput 
                     style={ [styles.inputStyle, {paddingTop: 30}] } 
+                    defaultValue={contactInfo}
                     placeholder= { "Contact info" }
                     placeholderTextColor= { 'gray'}
                     onChangeText={value => {setContactInfo(value)}}>
@@ -217,7 +204,7 @@ const PostNewScreen = ({route, navigation}) => {
                     <RadioForm
                     style= { styles.radioButton }
                     radio_props= { radio_props }
-                    initial={ 0 }
+                    initial={ deliveryType == "Shipping" ? 0 : 1}
                     buttonColor={ '#035aa1'}
                     selectedButtonColor= { '#035aa1'}
                     animation={ false }
@@ -227,9 +214,9 @@ const PostNewScreen = ({route, navigation}) => {
                 </View>
                 <TouchableOpacity 
                     style={{paddingTop: 10}}
-                    onPress={() => createPost()}>
+                    onPress={() => updatePost()}>
                     <View style= { [styles.button, { height: 45}] }>
-                        <Text style={ styles.buttonText}>{ 'Create Posting' }</Text>
+                        <Text style={ styles.buttonText}>{ 'Update Posting' }</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -281,4 +268,4 @@ const styles = StyleSheet.create({
       }
 })
 
-export default PostNewScreen
+export default ModifyPostScreen

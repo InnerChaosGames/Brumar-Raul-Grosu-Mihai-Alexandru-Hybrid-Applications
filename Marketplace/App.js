@@ -6,6 +6,7 @@ import LoginScreen from './Screens/LoginScreen'
 import RegisterScreen from './Screens/RegisterScreen'
 import PostScreen from './Screens/PostScreen'
 import PostNewScreen from './Screens/PostNewScreen'
+import ProfileScreen from './Screens/ProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
  
@@ -16,12 +17,13 @@ export default function App() {
     <NavigationContainer> 
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="PostScreen" component={PostScreen} />
           <Stack.Screen name="PostNewScreen" component={PostNewScreen} />
         </Stack.Navigator>
-      </NavigationContainer>      
+      </NavigationContainer>  
   )
 }
 

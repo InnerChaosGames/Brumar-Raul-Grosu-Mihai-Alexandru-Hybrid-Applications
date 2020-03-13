@@ -2,23 +2,34 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons} from '@expo/vector-icons'
-import Toast from 'react-native-simple-toast'
+import { Ionicons } from '@expo/vector-icons'
+import * as SecureStore from 'expo-secure-store'
 
-const Header = (props) => {
+const secureStoreToken = 'loginJWT'
+
+function logout(props) {
+    SecureStore.deleteItemAsync(secureStoreToken)
+      .then(() => {
+        props.navigation.pop();
+      })
+  }
+
+const BackHeader = (props) => {
     return (
     <View style={ styles.main }>
-        <TouchableOpacity onPress={() => props.navigation.navigate(props.screenToLoad, { receiveJWT: props.receiveJWT, JWT: props.JWT, logout: props.logout })}>
-            <View style= { [styles.button, { height: 45, width: 80 }] }>
-                <Text style={ styles.buttonText}>{ props.button1}</Text>
+        <TouchableOpacity style={{paddingTop: 10, paddingBottom: 10}} onPress={() => props.navigation.pop()}>
+            <View style= { [styles.button, { height: 45, width: 60 }, {alignItems: 'center'}] }>
+                <Ionicons name='ios-arrow-back' color='black' size={30}></Ionicons>
             </View>
         </TouchableOpacity>
         <Text style={styles.titleText}>{props.title}</Text>
-        <TouchableOpacity onPress={() => {if(!props.JWT) Toast.show('You need to login'); else props.navigation.navigate('PostNewScreen', {JWT: props.JWT})}}>
-            <View style= { [styles.button, { height: 45, width: 80 }] }>
-                <Text style={ styles.buttonText}>{ props.button2}</Text>
+        <TouchableOpacity style={{paddingTop: 10, paddingBottom: 10}} onPress={() => { logout(props)}}>
+            <View style= { [styles.button, { height: 45, width: 60 }, {alignItems: 'center'}] }>
+                <Text> { 'Logout' }</Text>
             </View>
         </TouchableOpacity>
     </View>
+
     )
 }
 
@@ -26,7 +37,7 @@ const styles = StyleSheet.create({
     main: {
         height: 75,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         paddingLeft: 10,
         paddingRight: 10,
@@ -38,6 +49,7 @@ const styles = StyleSheet.create({
         borderRightColor: 'transparent'
     },
     button: {
+        flex: 1,
         borderRadius: 30,
         justifyContent: 'center',
         backgroundColor: '#2196f3',
@@ -51,11 +63,12 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     titleText: {
+        flex: 5,
         color: 'black',
-        alignSelf: 'center',
         fontSize: 28,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center'
     }
 })
 
-export default Header
+export default BackHeader
