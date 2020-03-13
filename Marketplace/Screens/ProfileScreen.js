@@ -20,7 +20,9 @@ export default class ProfileScreen extends Component
       this.state = {
         items: [],
         loading: true,
-        activeJWT: null
+        activeJWT: null,
+        username: '',
+        id: ''
       }
     }
 
@@ -60,6 +62,8 @@ export default class ProfileScreen extends Component
       var item = JSON.parse(decodedValue)
 
       console.log(item.user.id);
+      this.setState({id: item.user.id});
+      this.setState({username: item.user.username});
 
       console.log('getting items by userId');
       fetch('https://marketplaceapialexraul.azurewebsites.net/search/user/' + item.user.id, {
@@ -104,7 +108,7 @@ export default class ProfileScreen extends Component
                   navigation={this.props.navigation}></Header>
                 <View style={{padding: 5, paddingTop: 10}}>
                     <View style={ styles.basicInfoContainer}>
-                        <Text style={{fontSize: 25, fontWeight: 'bold'}}> {'Name: '} </Text>
+                        <Text style={{fontSize: 25, fontWeight: 'bold'}}> {'Name: ' + this.state.username} </Text>
                     </View>
                 </View>
                 <View style={{paddingTop: 10, paddingBottom: 10}}>

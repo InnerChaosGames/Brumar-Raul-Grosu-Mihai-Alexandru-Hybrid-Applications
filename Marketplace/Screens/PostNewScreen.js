@@ -1,12 +1,15 @@
 import React from 'react';
 import { useState } from 'react'
-import { Text, StyleSheet, ScrollView, StatusBar, Image, View, TextInput, TouchableHighlight } from 'react-native';
+import { Text, StyleSheet, ScrollView, StatusBar, Image, View, TextInput, TouchableOpacity } from 'react-native';
 import ImageList from '../components/postedItem/imageList'
 import ItemDetails from '../components/postedItem/itemDetails'
 import BackHeader from '../components/backHeader';
 import AddedImagesList from '../components/postNewItems/addedImagesList'
 import Dropdown from 'react-native-modal-dropdown';
 import RadioForm from 'react-native-simple-radio-button';
+import * as ImagePicker from 'expo-image-picker'
+import Toast from 'react-native-simple-toast'
+import * as Permissions from 'expo-permissions'
 
 const categories= ['Vehicles', 'Real Estate', 'Jobs', 'Electonics & Appliances', 'Furniture', 'Mobiles', 'Pets', 'Books', 'Fashion', 'Services', 'Sports & Hobbies'];
   
@@ -19,15 +22,48 @@ const PostNewScreen = (props) => {
     
     const [radioButton, setRadioButton] = useState(0);
 
+    const [pickedImages, setPickedImages] = useState([]);
+
+    openImagePickerAsync = async () => {
+        if (pickedImages.length >= 4)
+        {
+            Toast.show("You can only upload up to 4 images!");
+            return;
+        }
+
+        let permissionGranted = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+
+        //let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+    
+        if (permissionGranted === false) {
+          alert("Permission to access camera roll is required!");
+          return;
+        }
+    
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({base64: true});
+    
+        if(pickerResult.cancelled == true)
+        {
+          alert('Image picker cancelled or failed');
+          return;
+        }
+    
+        setPickedImages(['data:image/png;base64,' + pickerResult.base64, ...pickedImages]);
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <StatusBar hidden={ true}></StatusBar>
             <BackHeader height={ 30 } button1={'Login'} button2={'Post'} title={'Marketplace'} navigation={props.navigation}> </BackHeader>
             <View style={{padding: 5}}>
-                <Text style={{fontSize: 20}}> { "Add images:" } </Text>
-                <AddedImagesList></AddedImagesList>
-                <View style={{paddingTop: 10, paddingBottom: 5}}>
+                <TouchableOpacity style={{paddingTop: 10, borderBottomWidth: 1}} onPress={() => openImagePickerAsync()}> 
+                    <Text style={{fontSize: 20}}> { "Add images" } </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{paddingTop: 10, borderBottomWidth: 1}} onPress={() => setPickedImages([])}> 
+                    <Text style={{fontSize: 20}}> { "Empty images" } </Text>
+                </TouchableOpacity>
+                <AddedImagesList images={pickedImages}></AddedImagesList>
+                <View style={{paddingTop: 20, paddingBottom: 5}}>
                     <Dropdown 
                         options={ categories }
                         textStyle={ styles.dropdownText}
@@ -76,13 +112,13 @@ const PostNewScreen = (props) => {
                     onPress= { (value) => {setRadioButton(value)}}>
                     </RadioForm>
                 </View>
-                <TouchableHighlight 
+                <TouchableOpacity 
                     style={{paddingTop: 10}}
                     onPress={() => console.log('post button pressed')}>
                     <View style= { [styles.button, { height: 45}] }>
                         <Text style={ styles.buttonText}>{ 'Create Posting' }</Text>
                     </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         </ScrollView>
   );

@@ -7,6 +7,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import ResultsList from '../components/home/resultsList'
 import * as SecureStore from 'expo-secure-store'
 
+
 var radio_props = [
     {label: 'Category', value: 0 },
     {label: 'Location', value: 1 },
