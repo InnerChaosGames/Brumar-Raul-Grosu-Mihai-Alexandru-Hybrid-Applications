@@ -114,7 +114,12 @@ export default class ProfileScreen extends Component
                 <View style={{paddingTop: 10, paddingBottom: 10}}>
                     <Text style={ styles.category }> { 'My postings: '}</Text>
                 </View>
-                <ProfileResultsList navigation={this.props.navigation} receivedData={this.state.items}></ProfileResultsList>
+                <ProfileResultsList 
+                  navigation={this.props.navigation} 
+                  receivedData={this.state.items}
+                  JWT={this.state.activeJWT}
+                  refreshCallback={this.searchByUserId}>
+                </ProfileResultsList>
             </View>
         );
     }

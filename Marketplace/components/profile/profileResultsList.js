@@ -3,6 +3,7 @@ import { SafeAreaView, TouchableOpacity, FlatList, StyleSheet, Text, View, Image
 import Constants from 'expo-constants';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
+import Toast from 'react-native-simple-toast'
 
 const categories= ['Vehicles', 'Real Estate', 'Jobs', 'Electonics & Appliances', 'Furniture', 'Mobiles', 'Pets', 'Books', 'Fashion', 'Services', 'Sports & Hobbies'];
 
@@ -19,12 +20,40 @@ var DATA = [{
   location: "London",
   sellerInfo: "Jaakko Penttinen, jaakko.penttinen@gmail.com, +35889898989",
   title: "Old Chair 25",
-  userId: "dc7015c4-1523-41fe-b322-0eacaeec9b80"
+  userId: "dc7015c4-1523-41fe-b322-0eacaeec9b80 "
 }];
 
-function Item({ id, title, price, location, date, image, onSelect }) {
+function Item({ id, title, price, location, date, image, onSelect, JWT, refreshCallback }) {
 
-  console.log(title);
+  function deleteItem()
+  {
+    fetch('https://marketplaceapialexraul.azurewebsites.net' + '/items', {
+      method: 'DELETE',
+      body: JSON.stringify({
+          id: id
+        }),
+      headers: {
+          "Authorization": "Bearer " + JWT,
+          "Content-Type": "application/json"
+      },
+    })
+    .then(response => {
+      if (response.status != 200) {
+        throw new Error("HTTP Code " + response.status + " - " + JSON.stringify(response.json()));
+      }
+      // return response.json();
+    })
+    .then(json => {
+      console.log("Successfully Deleted ")
+      Toast.show('Successfully deleted item');
+      refreshCallback();
+    })
+    .catch(error => {
+      console.log("Error message:")
+      console.log(error.message)
+    });
+  }
+
   return (
     <TouchableOpacity onPress={() => onSelect(id)} style={ styles.item }>
         <View style={ {flexDirection: 'row', justifyContent: 'flex-start'} }>
@@ -46,7 +75,7 @@ function Item({ id, title, price, location, date, image, onSelect }) {
               <TouchableOpacity onPress={() => console.log("Modify button")} style={ [styles.extraButtons, {backgroundColor: '#7aa5f5'}] }>
                 <Text style={{fontSize: 20}}>{"Modify"}</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => console.log("Delete button")} style={ [styles.extraButtons, {backgroundColor: '#cc2323'}] }>
+              <TouchableOpacity onPress={() => deleteItem()} style={ [styles.extraButtons, {backgroundColor: '#cc2323'}] }>
                 <Text style={{fontSize: 20}}>{"Delete"}</Text>
               </TouchableOpacity>
             </View>
@@ -63,7 +92,6 @@ const ResultsList = (props) => {
   );
 
   DATA=props.receivedData;
-    console.log(DATA);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -77,6 +105,8 @@ const ResultsList = (props) => {
             date={item.dateOfPosting}
             image={item.images[0]}
             onSelect={onSelect}
+            JWT={props.JWT}
+            refreshCallback= {props.refreshCallback}
           />
         )}
         keyExtractor={item => item.id}
