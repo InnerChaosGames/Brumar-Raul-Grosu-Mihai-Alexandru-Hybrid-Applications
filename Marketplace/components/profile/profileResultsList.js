@@ -23,7 +23,7 @@ var DATA = [{
   userId: "dc7015c4-1523-41fe-b322-0eacaeec9b80 "
 }];
 
-function Item({ id, title, price, location, date, image, onSelect, JWT, refreshCallback }) {
+function Item({ id, title, price, location, date, image, onSelect, JWT, refreshCallback, navigation, fullItem}) {
 
   function deleteItem()
   {
@@ -54,6 +54,11 @@ function Item({ id, title, price, location, date, image, onSelect, JWT, refreshC
     });
   }
 
+  function modifyItem()
+  {
+    navigation.navigate('ModifyPostScreen', {item: fullItem, JWT: JWT, refreshCallback: refreshCallback});
+  }
+
   return (
     <TouchableOpacity onPress={() => onSelect(id)} style={ styles.item }>
         <View style={ {flexDirection: 'row', justifyContent: 'flex-start'} }>
@@ -72,7 +77,7 @@ function Item({ id, title, price, location, date, image, onSelect, JWT, refreshC
             </View>
         </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 15}}>
-              <TouchableOpacity onPress={() => console.log("Modify button")} style={ [styles.extraButtons, {backgroundColor: '#7aa5f5'}] }>
+              <TouchableOpacity onPress={() => modifyItem()} style={ [styles.extraButtons, {backgroundColor: '#7aa5f5'}] }>
                 <Text style={{fontSize: 20}}>{"Modify"}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => deleteItem()} style={ [styles.extraButtons, {backgroundColor: '#cc2323'}] }>
@@ -107,6 +112,8 @@ const ResultsList = (props) => {
             onSelect={onSelect}
             JWT={props.JWT}
             refreshCallback= {props.refreshCallback}
+            navigation={props.navigation}
+            fullItem={item}
           />
         )}
         keyExtractor={item => item.id}

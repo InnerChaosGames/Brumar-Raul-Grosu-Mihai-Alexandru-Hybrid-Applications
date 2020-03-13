@@ -37,8 +37,9 @@ function login(loginUsername, loginPassword, receiveJWT, navigation)
       navigation.pop();
     })
     .catch(error => {
-        console.log("Error message:")
+        console.log("EEError message:")
         console.log(error.message)
+        Toast.show('Wrong username or password');
     });
 }
 

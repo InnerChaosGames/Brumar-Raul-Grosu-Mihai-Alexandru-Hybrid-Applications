@@ -58,7 +58,7 @@ const ResultsList = (props) => {
   );
 
   DATA=props.receivedData;
-    console.log(DATA);
+    //console.log(DATA);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

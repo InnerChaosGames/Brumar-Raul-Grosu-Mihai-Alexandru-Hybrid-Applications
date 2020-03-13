@@ -13,7 +13,7 @@ const ItemDetails = (props) => {
                 <View style = { styles.basicInfoContainer }>
                     <Text style={{fontSize: 25, fontWeight: 'bold'}}> { props.price } </Text> 
                     <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom: 5}}>
-                        <Text style={{fontSize: 20, width: '75%'}}> {' Title'} </Text>
+                        <Text style={{fontSize: 20, width: '75%'}}> {props.title} </Text>
                         <Text style={{width: '25%'}}> { props.date } </Text>
                     </View>
                     <Text style= {{fontSize: 20, borderWidth: 2, borderRadius: 10, alignSelf: 'flex-start'}}> { "Delivery Type:" + props.deliveryType}</Text>

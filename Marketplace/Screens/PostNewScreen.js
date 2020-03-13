@@ -122,6 +122,9 @@ const PostNewScreen = ({route, navigation}) => {
             return;
         }
 
+        var date = new Date();
+        date = date.getFullYear() + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);
+
         fetch('https://marketplaceapialexraul.azurewebsites.net' + '/items', {
             method: 'POST',
             body: JSON.stringify({
@@ -132,7 +135,7 @@ const PostNewScreen = ({route, navigation}) => {
                 location: location,
                 images: pickedImages,
                 askingPrice: price,
-                dateOfPosting: "10-03-2020",
+                dateOfPosting: date,
                 deliveryType: deliveryType,
                 sellerInfo: contactInfo
               }),

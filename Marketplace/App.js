@@ -9,6 +9,7 @@ import PostNewScreen from './Screens/PostNewScreen'
 import ProfileScreen from './Screens/ProfileScreen'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
+import ModifyPostScreen from './Screens/ModifyPostScreen'
  
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="PostScreen" component={PostScreen} />
           <Stack.Screen name="PostNewScreen" component={PostNewScreen} />
+          <Stack.Screen name="ModifyPostScreen" component={ModifyPostScreen} />
         </Stack.Navigator>
       </NavigationContainer>  
   )

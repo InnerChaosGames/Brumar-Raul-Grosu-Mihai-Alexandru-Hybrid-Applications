@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { useState } from 'react'
-import { StyleSheet, View, StatusBar, Image } from 'react-native';
+import { StyleSheet, View, StatusBar, Image, ToastAndroid } from 'react-native';
 import Header from '../components/home/header';
 import Searchbar from '../components/home/searchbar';
 import RadioForm from 'react-native-simple-radio-button';
 import ResultsList from '../components/home/resultsList'
 import * as SecureStore from 'expo-secure-store'
+import Toast from 'react-native-simple-toast'
 
 
 var radio_props = [
@@ -57,7 +58,7 @@ export default class HomeScreen extends Component
     searchByCategory = (searchValue) =>
     {
       console.log('getting items by category');
-      fetch('https://marketplaceapialexraul.azurewebsites.net/search/category/' + searchValue, {
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/category/' + searchValue.toLowerCase().replace(' ', '_'), {
         method: 'GET'
       })
       .then(response => {
@@ -71,12 +72,13 @@ export default class HomeScreen extends Component
         console.log("Received following JSON");
         
         this.setState({items: json}, function() {
-          console.log(this.state.items);
+          //console.log(this.state.items);
         });
       })
       .catch(error => {
         console.log("Error message:")
         console.log(error.message)
+        Toast.show('Invalid category');
       });
     }
 
@@ -97,7 +99,7 @@ export default class HomeScreen extends Component
         console.log("Received following JSON");
 
         this.setState({items: json}, function() {
-          console.log(this.state.items);
+          //console.log(this.state.items);
         });
       })
       .catch(error => {
@@ -109,7 +111,7 @@ export default class HomeScreen extends Component
     searchByDate = (searchValue) =>
     {
       console.log('getting items by date');
-      fetch('https://marketplaceapialexraul.azurewebsites.net/search/date/' + searchValue, {
+      fetch('https://marketplaceapialexraul.azurewebsites.net/search/dateOfPosting/' + searchValue, {
         method: 'GET'
       })
       .then(response => {
@@ -123,7 +125,7 @@ export default class HomeScreen extends Component
         console.log("Received following JSON");
 
         this.setState({items: json}, function() {
-          console.log(this.state.items);
+          //console.log(this.state.items);
         });
       })
       .catch(error => {
@@ -134,11 +136,12 @@ export default class HomeScreen extends Component
 
     searchLogic = (searchValue) =>
     {
+      console.log(this.state.radioButton)
       if (this.state.radioButton == 0)
         this.searchByCategory(searchValue);
-      else if (this.state.radioButton == 1)
+      if (this.state.radioButton == 1)
         this.searchByLocation(searchValue);
-      else (this.state.radioButton == 2)
+      if (this.state.radioButton == 2)
         this.searchByDate(searchValue);
     }
 
